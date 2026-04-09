@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title> Pheekimi Vector Match: Enchanted Eyes & Music</title>
+    
+    <!-- Meta Description -->
+    <meta name="description" content="Play Vector Match: Enchanted Eyes & Music, an addictive HTML5 puzzle game featuring vector matching challenges with enchanted eyes and relaxing background music. Test your logic and reflexes in this free online brain teaser!">
+    
+    <!-- Keywords for Game SEO -->
+    <meta name="keywords" content="vector match game, HTML5 puzzle, enchanted eyes game, music puzzle, brain teaser, logic game, free online game, vector matching, eye tracking game, relaxing games">
+    
+    <!-- Author and Robots -->
+    <meta name="author" content="Talentro">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="/index.html">
+    <meta property="og:title" content="Vector Match: Enchanted Eyes & Music">
+    <meta property="og:description" content="Play Vector Match: Enchanted Eyes & Music, an addictive HTML5 puzzle game featuring vector matching challenges with enchanted eyes and relaxing background music. Test your logic and reflexes in this free online brain teaser!">
+    <meta property="og:image" content="/2453f912830103aececc81d8dbfbd352.jpg">
+    <meta property="og:site_name" content="Talentro Games">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="/index.html">
+    <meta name="twitter:title" content="Vector Match: Enchanted Eyes & Music">
+    <meta name="twitter:description" content="Play Vector Match: Enchanted Eyes & Music, an addictive HTML5 puzzle game featuring vector matching challenges with enchanted eyes and relaxing background music. Test your logic and reflexes in this free online brain teaser!">
+    <meta name="twitter:image" content="/2453f912830103aececc81d8dbfbd352.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/2453f912830103aececc81d8dbfbd352.jpg" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/2453f912830103aececc81d8dbfbd352.jpg" sizes="180x180">
+    <link rel="icon" href="/2453f912830103aececc81d8dbfbd352.jpg" sizes="32x32" type="image/png">
+    <link rel="icon" href="/2453f912830103aececc81d8dbfbd352.jpg" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/2453f912830103aececc81d8dbfbd352.jpg">
+    
+    <!-- Game Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Vector Match: Enchanted Eyes & Music",
+        "description": "An addictive HTML5 puzzle game where players match vectors while following enchanted eyes and soothing music.",
+        "genre": "Puzzle",
+        "playMode": "SinglePlayer",
+        "applicationCategory": "Game",
+        "operatingSystem": "Web Browser",
+        "url": "/index.html",
+        "image": "/2453f912830103aececc81d8dbfbd352.jpg",
+        "author": {
+            "@type": "Organization",
+            "name": "Talentro"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Pheekimi-Vector-Mc"
+        },
+        "datePublished": "2026-02-01",
+        "inLanguage": "en-US"
+    }
+    </script>
+    
+    <style>
+        * {
+            user-select: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #1a472a 0%, #0e2a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Quicksand', system-ui, -apple-system, 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            cursor: default;
+            overflow-x: hidden;
+        }
+
+        /* eyes container - fixed on background */
+        .eyes-container {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+            background: rgba(0,0,0,0.3);
+            padding: 12px 20px;
+            border-radius: 100px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
+        .eye {
+            width: 55px;
+            height: 55px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 0 4px #ffd966, 0 8px 15px rgba(0,0,0,0.3);
+        }
+        .pupil {
+            width: 22px;
+            height: 22px;
+            background: #2c2c2c;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.08s linear;
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .pupil::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+        }
+
+        /* game container */
+        .game-container {
+            background: rgba(255, 248, 225, 0.94);
+            border-radius: 64px;
+            padding: 28px 24px 32px 24px;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(2px);
+            max-width: 780px;
+            width: 100%;
+            transition: all 0.2s;
+            z-index: 5;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin: 0 0 8px 0;
+            color: #ffdd99;
+            text-shadow: 3px 3px 0 #a55217;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .sub {
+            text-align: center;
+            color: #f7e3b2;
+            background: #2c5a2e;
+            display: inline-block;
+            width: 100%;
+            padding: 6px 0;
+            border-radius: 60px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* 12 cards grid = 4x3 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            justify-items: center;
+            align-items: center;
+            margin: 20px 0 28px;
+            padding: 8px;
+        }
+
+        .card {
+            background: #fff6e0;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            max-width: 130px;
+            border-radius: 28px;
+            cursor: pointer;
+            box-shadow: 0 12px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255,255,200,0.8);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #ffcf9a;
+            background: #fef3da;
+        }
+        .card:hover:not(.matched-card) {
+            transform: scale(1.02);
+            background: #fff2df;
+            border-color: #ffb347;
+        }
+        .card-content {
+            width: 80%;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-icon {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #b97f3a;
+            text-shadow: 2px 2px 0 #ffe0a3;
+        }
+        svg {
+            width: 85%;
+            height: 85%;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+        }
+        .matched-card {
+            cursor: default;
+            background: #d9ffcf;
+            border: 3px solid #f5b642;
+            transform: scale(0.98);
+        }
+        .message-area {
+            background: #2e241f;
+            border-radius: 60px;
+            padding: 8px 18px;
+            text-align: center;
+            margin: 12px 0 18px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #ffefc0;
+            box-shadow: inset 0 2px 5px #1a130f, 0 3px 6px rgba(0,0,0,0.3);
+        }
+        .wrong-message {
+            color: #ffb3a7;
+            text-shadow: 0 0 3px #a12200;
+            animation: shake 0.4s ease;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+            100% { transform: translateX(0); }
+        }
+        .restart-btn {
+            background: #ffb347;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 40px;
+            width: 70%;
+            margin: 0 auto;
+            display: block;
+            color: #2c1a0c;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.2s;
+            box-shadow: 0 5px 0 #a35010;
+        }
+        .restart-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #a35010;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            margin-top: 20px;
+            color: #e7c894;
+        }
+
+        /* MODAL GUIDE + NAME + START */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            font-family: inherit;
+        }
+        .guide-card {
+            background: #fff6e8;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 64px;
+            padding: 28px 24px;
+            text-align: center;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.5);
+            border: 3px solid #ffc285;
+            animation: fadeScale 0.3s ease;
+        }
+        @keyframes fadeScale {
+            from { opacity: 0; transform: scale(0.9);}
+            to { opacity: 1; transform: scale(1);}
+        }
+        .guide-card h2 {
+            color: #c45c1b;
+            margin-top: 0;
+        }
+        .guide-icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            background: #ffe4c4;
+            border-radius: 60px;
+            padding: 15px;
+        }
+        .guide-item {
+            text-align: center;
+            width: 70px;
+        }
+        .guide-item svg {
+            width: 48px;
+            height: 48px;
+        }
+        .guide-item p {
+            margin: 8px 0 0;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        .name-input {
+            margin: 20px 0;
+        }
+        .name-input input {
+            padding: 12px 20px;
+            font-size: 1rem;
+            border-radius: 60px;
+            border: 2px solid #ffb05a;
+            width: 80%;
+            text-align: center;
+            font-family: inherit;
+            outline: none;
+        }
+        .start-btn {
+            background: #ff9f4a;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #2b1c0c;
+            transition: 0.1s;
+            margin-top: 8px;
+        }
+        .start-btn:active { transform: scale(0.96);}
+
+        /* flower popup win */
+        .flower-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            animation: fadeInBg 0.2s ease;
+        }
+        .flower-card {
+            background: #fffae9;
+            border-radius: 80px;
+            padding: 30px 40px;
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
+            animation: popFlower 0.4s cubic-bezier(0.34, 1.2, 0.8, 1);
+            border: 5px solid #ffb882;
+        }
+        .flower-card h2 {
+            font-size: 2rem;
+            color: #ff6f3c;
+        }
+        .flower-burst {
+            font-size: 3rem;
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: floatFlowers 1s infinite alternate;
+        }
+        @keyframes popFlower {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes floatFlowers {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-12px); }
+        }
+        .close-popup {
+            margin-top: 22px;
+            background: #ffaa55;
+            border: none;
+            padding: 8px 28px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        @media (max-width: 600px) {
+            .card-grid { gap: 10px; }
+            .eye { width: 40px; height: 40px; }
+            .pupil { width: 16px; height: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="eyes-container" id="eyesContainer">
+    <div class="eye" id="leftEye"><div class="pupil" id="leftPupil"></div></div>
+    <div class="eye" id="rightEye"><div class="pupil" id="rightPupil"></div></div>
+</div>
+
+<div class="game-container" id="gameContainer" style="opacity:0; transition:0.3s;">
+    <h1><span>👁️</span>KIMI-RICH VECTOR MATCH <span>🎵</span></h1>
+    <div class="sub">✦ match twin vectors - follow the eyes ✦</div>
+    <div class="card-grid" id="cardGrid"></div>
+    <div class="message-area" id="messageBox">👀 Tap a card to start your journey 👀</div>
+    <button class="restart-btn" id="restartGameBtn">🔄 New Round / Reshuffle</button>
+    <footer>🌼 reveal pairs · score the match · bloom your victory 🌼</footer>
+</div>
+
+<script>
+    // ---------- VECTOR SVG DEFINITIONS (6 unique shapes) ----------
+    const vectorMap = {
+        heart: `<svg viewBox="0 0 24 24"><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5 2,5.41 4.42,3 7.5,3c1.74,0 3.41.81 4.5,2.08C13.09,3.81 14.76,3 16.5,3 19.58,3 22,5.41 22,8.5c0,3.77-3.4,6.86-8.55,11.54L12,21.35Z" fill="#e34234" stroke="#b22b1e" stroke-width="0.8"/></svg>`,
+        star: `<svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,14.5 19,22 12,17.5 5,22 7.5,14.5 2,9 9,9" fill="#F4C542" stroke="#d49b1a" stroke-width="0.9"/></svg>`,
+        circle: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#6ec8e0" stroke="#2f93b0" stroke-width="1.2"/><circle cx="12" cy="12" r="5" fill="#ffffff" opacity="0.6"/></svg>`,
+        diamond: `<svg viewBox="0 0 24 24"><polygon points="12,2 22,12 12,22 2,12" fill="#b980f0" stroke="#7a48c5" stroke-width="1"/><polygon points="12,8 18,12 12,16 6,12" fill="#f3d9ff"/></svg>`,
+        leaf: `<svg viewBox="0 0 24 24"><path d="M12,2 C9,7 4,10 4,16 C4,20 7,22 12,22 C17,22 20,20 20,16 C20,10 15,7 12,2Z" fill="#6fbf4c" stroke="#3d741d"/><path d="M12,6 L12,18 M12,6 L8,10 M12,6 L16,10" stroke="#f9e45b" stroke-width="1.2" fill="none"/></svg>`,
+        moon: `<svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 1,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20V4Z" fill="#ffe6a3" stroke="#d6a429"/><circle cx="16" cy="10" r="1.5" fill="#fbcb5a"/></svg>`
+    };
+    const SHAPES_LIST = ['heart', 'star', 'circle', 'diamond', 'leaf', 'moon']; // 6 pairs = 12 cards
+    let cards = [];
+    let selectedIndices = [];
+    let lockBoard = false;
+    let gameWon = false;
+    let timeoutId = null;
+    let playerName = "Guest";
+    let audioCtx = null;
+    let musicGain = null;
+    let musicInterval = null;
+    let musicPlaying = false;
+    let soundEnabled = false;
+
+    // DOM elements
+    const gridContainer = document.getElementById('cardGrid');
+    const messageBox = document.getElementById('messageBox');
+    const restartBtn = document.getElementById('restartGameBtn');
+    const gameContainer = document.getElementById('gameContainer');
+
+    // ----- SOUNDS using Web Audio API -----
+    function initAudioOnUserGesture() {
+        if (audioCtx && audioCtx.state !== 'closed') return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        musicGain = audioCtx.createGain();
+        musicGain.gain.value = 0.35;
+        musicGain.connect(audioCtx.destination);
+        soundEnabled = true;
+        playBackgroundMusic();
+    }
+
+    function playBeep(freq, duration, type = 'sine', volume = 0.2) {
+        if (!audioCtx || audioCtx.state !== 'running') return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.value = volume;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        osc.stop(now + duration);
+    }
+
+    function playCardClickSound() { playBeep(880, 0.08, 'sine', 0.12); }
+    function playMatchSound() { playBeep(1318.52, 0.2, 'sine', 0.2); setTimeout(()=> playBeep(1568, 0.18, 'sine', 0.2), 150); }
+    function playWrongSound() { playBeep(440, 0.35, 'triangle', 0.25); setTimeout(()=> playBeep(330, 0.4, 'triangle', 0.2), 100); }
+    function playWinFanfare() {
+        if (!audioCtx) return;
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((f, i) => setTimeout(() => playBeep(f, 0.35, 'sine', 0.25), i * 150));
+    }
+
+    function playBackgroundMusic() {
+        if (!audioCtx || musicPlaying) return;
+        musicPlaying = true;
+        function playLoop() {
+            if (!musicPlaying || !audioCtx || audioCtx.state !== 'running') return;
+            const now = audioCtx.currentTime;
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.value = 196.00; // G3
+            gain1.gain.value = 0.08;
+            osc1.connect(gain1);
+            gain1.connect(musicGain);
+            osc1.start();
+            gain1.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+            osc1.stop(now + 2.2);
+
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.value = 261.63; // C4
+            gain2.gain.value = 0.07;
+            osc2.connect(gain2);
+            gain2.connect(musicGain);
+            osc2.start(now + 0.4);
+            gain2.gain.exponentialRampToValueAtTime(0.0001, now + 2.6);
+            osc2.stop(now + 2.6);
+
+            const osc3 = audioCtx.createOscillator();
+            const gain3 = audioCtx.createGain();
+            osc3.type = 'sine';
+            osc3.frequency.value = 329.63; // E4
+            gain3.gain.value = 0.07;
+            osc3.connect(gain3);
+            gain3.connect(musicGain);
+            osc3.start(now + 0.9);
+            gain3.gain.exponentialRampToValueAtTime(0.0001, now + 2.9);
+            osc3.stop(now + 2.9);
+
+            musicInterval = setTimeout(playLoop, 2800);
+        }
+        playLoop();
+    }
+    function stopBackgroundMusic() {
+        if (musicInterval) clearTimeout(musicInterval);
+        musicPlaying = false;
+    }
+
+    // ---- Helpers ----
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function initGame() {
+        if (timeoutId) clearTimeout(timeoutId);
+        let deck = [];
+        SHAPES_LIST.forEach(shape => { deck.push(shape, shape); });
+        deck = shuffleArray(deck);
+        cards = deck.map((shape, idx) => ({ id: idx, shape, matched: false, flipped: false }));
+        selectedIndices = [];
+        lockBoard = false;
+        gameWon = false;
+        renderBoard();
+        updateMessage(`🎵 Match pairs, ${playerName}! Good luck 🎵`, false);
+    }
+
+    function updateMessage(msg, isWrong = false) {
+        messageBox.innerText = msg;
+        if (isWrong) {
+            messageBox.classList.add('wrong-message');
+            setTimeout(() => messageBox.classList.remove('wrong-message'), 700);
+        }
+    }
+
+    function renderBoard() {
+        gridContainer.innerHTML = '';
+        cards.forEach((card, idx) => {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
+            if (card.matched) cardDiv.classList.add('matched-card');
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'card-content';
+            if (card.matched || card.flipped) {
+                contentDiv.innerHTML = vectorMap[card.shape];
+            } else {
+                contentDiv.innerHTML = `<div class="back-icon">❓</div>`;
+            }
+            cardDiv.appendChild(contentDiv);
+            cardDiv.addEventListener('click', (e) => {
+                e.stopPropagation();
+                onCardClick(idx);
+            });
+            gridContainer.appendChild(cardDiv);
+        });
+    }
+
+    function onCardClick(clickedIdx) {
+        if (lockBoard || gameWon) return;
+        const clickedCard = cards[clickedIdx];
+        if (clickedCard.matched || clickedCard.flipped) return;
+        if (selectedIndices.length === 2) return;
+        // play click sound
+        if (soundEnabled && audioCtx && audioCtx.state === 'running') playCardClickSound();
+        clickedCard.flipped = true;
+        renderBoard();
+        selectedIndices.push(clickedIdx);
+        if (selectedIndices.length === 2) {
+            const idx1 = selectedIndices[0], idx2 = selectedIndices[1];
+            const card1 = cards[idx1], card2 = cards[idx2];
+            if (card1.shape === card2.shape) {
+                // MATCH
+                if (soundEnabled) playMatchSound();
+                cards[idx1].matched = true;
+                cards[idx2].matched = true;
+                cards[idx1].flipped = true;
+                cards[idx2].flipped = true;
+                selectedIndices = [];
+                renderBoard();
+                updateMessage(`✨ Great match, ${playerName}! ✨`, false);
+                checkWin();
+                if (!gameWon) lockBoard = false;
+            } else {
+                // WRONG
+                if (soundEnabled) playWrongSound();
+                updateMessage(`🌼 Hmm Wrong, ${playerName} 🌼`, true);
+                lockBoard = true;
+                timeoutId = setTimeout(() => {
+                    if (!cards[idx1].matched) cards[idx1].flipped = false;
+                    if (!cards[idx2].matched) cards[idx2].flipped = false;
+                    selectedIndices = [];
+                    renderBoard();
+                    lockBoard = false;
+                    if (!gameWon) updateMessage(`🔍 Try again, ${playerName}! find twin vector`, false);
+                    timeoutId = null;
+                }, 800);
+            }
+        } else {
+            updateMessage(`🌸 Pick matching vector, ${playerName} 🌸`, false);
+        }
+    }
+
+    function checkWin() {
+        const allMatched = cards.every(c => c.matched);
+        if (allMatched && !gameWon) {
+            gameWon = true;
+            if (soundEnabled) playWinFanfare();
+            updateMessage(`🎉 VICTORY! ${playerName} WON! 🎉`, false);
+            showPartyFlowerPopupWithName();
+            lockBoard = true;
+        }
+        return allMatched;
+    }
+
+    function showPartyFlowerPopupWithName() {
+        const existing = document.querySelector('.flower-popup');
+        if (existing) existing.remove();
+        const popup = document.createElement('div');
+        popup.className = 'flower-popup';
+        popup.innerHTML = `
+            <div class="flower-card">
+                <h2>🌸✨KIMI-RICH ${playerName} WINS! ✨🌸</h2>
+                <div class="flower-burst">🌼 🌸 🌻 🌺 🌷 🎉 🌼 🌸</div>
+                <div class="flower-burst" style="font-size:2rem;">🌸🎵 VICTORY BLOOM 🎵🌸</div>
+                <p style="font-size:1.2rem;">You uncovered every twin vector with style!</p>
+                <button class="close-popup" id="winCloseBtn">🌸 Play Again 🌸</button>
+            </div>
+        `;
+        document.body.appendChild(popup);
+        document.getElementById('winCloseBtn').addEventListener('click', () => {
+            popup.remove();
+            restartGame();
+        });
+    }
+
+    function restartGame() {
+        if (timeoutId) clearTimeout(timeoutId);
+        const pop = document.querySelector('.flower-popup');
+        if (pop) pop.remove();
+        lockBoard = false;
+        gameWon = false;
+        selectedIndices = [];
+        let deck = [];
+        SHAPES_LIST.forEach(shape => { deck.push(shape, shape); });
+        deck = shuffleArray(deck);
+        cards = deck.map((shape, idx) => ({ id: idx, shape, matched: false, flipped: false }));
+        renderBoard();
+        updateMessage(`🔄 New game, ${playerName}! Match pairs! 🔄`, false);
+    }
+
+    // ----- EYES FOLLOW CURSOR -----
+    function initEyes() {
+        const leftPupil = document.getElementById('leftPupil');
+        const rightPupil = document.getElementById('rightPupil');
+        const leftEye = document.getElementById('leftEye');
+        const rightEye = document.getElementById('rightEye');
+        document.addEventListener('mousemove', (e) => {
+            const eyes = [leftEye, rightEye];
+            const pupils = [leftPupil, rightPupil];
+            eyes.forEach((eye, idx) => {
+                if (!eye) return;
+                const rect = eye.getBoundingClientRect();
+                const eyeCenterX = rect.left + rect.width / 2;
+                const eyeCenterY = rect.top + rect.height / 2;
+                const deltaX = e.clientX - eyeCenterX;
+                const deltaY = e.clientY - eyeCenterY;
+                const angle = Math.atan2(deltaY, deltaX);
+                const distance = Math.min(rect.width / 3.5, Math.hypot(deltaX, deltaY));
+                const moveX = Math.cos(angle) * distance;
+                const moveY = Math.sin(angle) * distance;
+                if (pupils[idx]) {
+                    pupils[idx].style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+                }
+            });
+        });
+    }
+
+    // --- localStorage with 1hr expiry ---
+    function saveNameWithExpiry(name) {
+        const item = { name: name, expiry: Date.now() + 3600000 };
+        localStorage.setItem('vectorMatchUser', JSON.stringify(item));
+    }
+    function loadSavedName() {
+        const raw = localStorage.getItem('vectorMatchUser');
+        if (!raw) return null;
+        try {
+            const data = JSON.parse(raw);
+            if (Date.now() > data.expiry) {
+                localStorage.removeItem('vectorMatchUser');
+                return null;
+            }
+            return data.name;
+        } catch(e) { return null; }
+    }
+
+    // --- Guide & Name Modal (First start) ---
+    function showGuideAndNameModal() {
+        const modalDiv = document.createElement('div');
+        modalDiv.className = 'modal-overlay';
+        modalDiv.innerHTML = `
+            <div class="guide-card">
+                <h2>🌸 VECTOR GUIDE 🌸</h2>
+                <p>Match identical vector pictures. Each card reveals a unique vector icon.</p>
+                <div class="guide-icons">
+                    <div class="guide-item">${vectorMap.heart}<p>❤️ Heart</p></div>
+                    <div class="guide-item">${vectorMap.star}<p>⭐ Star</p></div>
+                    <div class="guide-item">${vectorMap.circle}<p>🔵 Circle</p></div>
+                    <div class="guide-item">${vectorMap.diamond}<p>💎 Diamond</p></div>
+                    <div class="guide-item">${vectorMap.leaf}<p>🍃 Leaf</p></div>
+                    <div class="guide-item">${vectorMap.moon}<p>🌙 Moon</p></div>
+                </div>
+                <p><strong>🎵 This game plays music & sounds! Click start to enable audio 🎵</strong></p>
+                <div class="name-input">
+                    <input type="text" id="playerNameInput" placeholder="Enter your name (optional)" maxlength="20">
+                </div>
+                <button class="start-btn" id="startGameBtn">✨ START MATCHING ✨</button>
+                <p style="font-size:0.75rem; margin-top:12px;">Name saved for 1 hour (refreshes allowed)</p>
+            </div>
+        `;
+        document.body.appendChild(modalDiv);
+        const saved = loadSavedName();
+        if (saved) document.getElementById('playerNameInput').value = saved;
+        document.getElementById('startGameBtn').addEventListener('click', () => {
+            let inputName = document.getElementById('playerNameInput').value.trim();
+            if (inputName === "") inputName = "Guest";
+            playerName = inputName;
+            saveNameWithExpiry(playerName);
+            modalDiv.remove();
+            gameContainer.style.opacity = '1';
+            // init audio after user gesture
+            initAudioOnUserGesture();
+            // resume audio context on user click (already click on start)
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            initGame();
+        });
+    }
+
+    // attach restart event
+    restartBtn.addEventListener('click', () => {
+        if (gameWon) {
+            const pop = document.querySelector('.flower-popup');
+            if(pop) pop.remove();
+        }
+        restartGame();
+        if (soundEnabled && audioCtx && audioCtx.state !== 'running') audioCtx.resume();
+    });
+
+    // finally launch
+    window.addEventListener('load', () => {
+        initEyes();
+        showGuideAndNameModal();
+        // pre-hide game container until start
+        gameContainer.style.opacity = '0';
+    });
+</script>
+</body>
+</html>
